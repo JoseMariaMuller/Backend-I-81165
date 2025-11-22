@@ -1,0 +1,38 @@
+[
+  {
+    "id": "25a8c53c-57a9-4bc2-8a1e-c5b885512081",
+    "title": "Teclado Rojo",
+    "description": "Teclado Inalambrico",
+    "stock": 2,
+    "code": "1221FR3",
+    "price": 500,
+    "thumbnail": ""
+  },
+  {
+    "id": "7ee8bd51-929d-4957-838b-f4f050a0ccb9",
+    "title": "Auriculares",
+    "description": "Auriculares Inalambrico",
+    "stock": 10,
+    "code": "1221FR5",
+    "price": 950,
+    "thumbnail": ""
+  },
+  {
+    "id": "96984f2d-4f57-47cb-9c88-01334bd08dfa",
+    "title": "Mouse Inalámbrico",
+    "description": "Mouse ergonómico de alta precisión",
+    "stock": 18,
+    "code": "MSE660PR",
+    "price": 660,
+    "thumbnail": ""
+  },
+  {
+    "id": "1222e03a-6c98-43a1-8560-36e1fb2cdbe6",
+    "title": "Silla Gamer",
+    "description": "Silla ergonomica",
+    "stock": 9,
+    "code": "MSE590FR",
+    "price": 1660,
+    "thumbnail": ""
+  }
+]
