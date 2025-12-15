@@ -1,0 +1,36 @@
+<h1 class="mb-4">Productos Disponibles</h1>
+
+{{#if products}}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {{#each products}}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">{{this.description}}</p>
+                <div class="mt-auto">
+                    <span class="badge bg-primary">Stock: {{this.stock}}</span>
+                    <span class="badge bg-secondary">Código: {{this.code}}</span>
+                    <p class="fs-5 fw-bold text-primary mt-2">${{this.price}}</p>
+                    <button class="btn btn-danger btn-sm mt-2" onclick="deleteProduct('{{this.id}}')">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{else}}
+<p class="text-center">No hay productos disponibles.</p>
+{{/if}}
+
+<script>
+function deleteProduct(id) {
+    if (confirm('¿Eliminar este producto?')) {
+        fetch(`/api/products/${id}`, { method: 'DELETE' })
+            .then(() => window.location.reload())
+            .catch(err => console.error(err));
+    }
+}
+</script>
