@@ -1,0 +1,44 @@
+<h1>Carrito {{cart._id}}</h1>
+
+{{#if cart.products}}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {{#each cart.products}}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{this.product.title}}</h5>
+                <p class="card-text">{{this.product.description}}</p>
+                <div class="mt-auto">
+                    <p class="fs-5 fw-bold text-primary">$ {{this.product.price}} <small>x {{this.quantity}}</small></p>
+                    <p class="text-muted">Subtotal: $ {{multiply this.product.price this.quantity}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+
+<div class="mt-4">
+    <button class="btn btn-danger" onclick="clearCart('{{cart._id}}')">
+        Vaciar carrito
+    </button>
+</div>
+{{else}}
+<p class="text-center">Este carrito está vacío.</p>
+{{/if}}
+
+<script>
+    
+    Handlebars.registerHelper('multiply', function (a, b) {
+        return (a * b).toFixed(2);
+    });
+
+    function clearCart(cartId) {
+        if (confirm('¿Vaciar todo el carrito?')) {
+            fetch(`/api/carts/${cartId}`, { method: 'DELETE' })
+                .then(() => window.location.reload())
+                .catch(err => console.error(err));
+        }
+    }
+</script>

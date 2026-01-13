@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1>{{product.title}}</h1>
+        <p class="lead">{{product.description}}</p>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">Detalles</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Precio:</strong> $ {{product.price}}</li>
+                    <li class="list-group-item"><strong>Categoría:</strong> {{product.category}}</li>
+                    <li class="list-group-item"><strong>Stock:</strong> {{product.stock}}</li>
+                    <li class="list-group-item"><strong>Código:</strong> {{product.code}}</li>
+                    <li class="list-group-item"><strong>Estado:</strong> {{#if
+                        product.status}}Disponible{{else}}Agotado{{/if}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h2>Agregar al carrito</h2>
+
+        {{#if carts}}
+        <form id="addToCartForm">
+            <input type="hidden" id="productId" value="{{product._id}}">
+
+            <div class="mb-3">
+                <label for="cartSelect" class="form-label">Seleccionar carrito</label>
+                <select class="form-select" id="cartSelect" required>
+                    <option value="">-- Elige un carrito --</option>
+                    {{#each carts}}
+                    <option value="{{this._id}}">Carrito {{this._id}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="quantity" min="1" value="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+        </form>
+        {{else}}
+        <p class="text-warning">No hay carritos disponibles. <a href="/api/carts" target="_blank">Crea uno primero</a>.
+        </p>
+        {{/if}}
+    </div>
+</div>
+
+<script>
+    document.getElementById('addToCartForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const productId = document.getElementById('productId').value;
+        const cartId = document.getElementById('cartSelect').value;
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        if (!cartId) {
+            alert('Por favor, selecciona un carrito');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/carts/${cartId}/product/${productId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity })
+            });
+
+            if (response.ok) {
+                alert('Producto agregado al carrito exitosamente');
+                window.location.href = `/carts/${cartId}`;
+            } else {
+                const error = await response.json();
+                alert('Error: ' + (error.message || 'No se pudo agregar el producto'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error de conexión');
+        }
+    });
+</script>
